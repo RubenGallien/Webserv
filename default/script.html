@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+    <title>Scripts</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Differents scripts !</h1>
+
+
+      <article>
+        <header>
+          <h2>Hello you !</h2>
+        </header>
+        <p>Ce script affiche dynamiquement une page vous souhaitant la bienvenue en fonction de votre prenom</p>
+        <form action="/cgi-bin/hello.py" method="post">
+          <input type="text" name="prenom" placeholder="Prenom" aria-label="Text">
+          <button type="submit">Exécuter</button>
+        </form>
+      </article>
+
+      <article>
+        <header>
+          <h2>TimeoutCgi</h2>
+        <p>Ce script ne va rien faire pendant 10 secondes</p>
+        <form action="/cgi-bin/timeout.py" method="post">
+          <button type="submit">Exécuter</button>
+        </form>
+      </article>
+
+      <article>
+        <header>
+          <h2>ENV</h2>
+        </header>
+        <p>Ce script execute phpinfo()</p>
+        <form action="/cgi-bin/info.php" method="post">
+          <button type="submit">Exécuter</button>
+        </form>
+      </article>
+
+    </main>
+  </body>
+</html>

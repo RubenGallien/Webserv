@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light dark">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"
+    >
+    <title>Upload</title>
+  </head>
+  <body>
+    <main class="container">
+      <h1>Votre upload :</h1>
+
+
+      <article>
+		<header>
+			<h3>Création de fichier</h3>
+		</header>
+
+		<p>Choisissez le contenu du fichier que vous souhaitez créer :</p>
+
+		<form action="/uploads" method="post">
+			<textarea
+			id="description"
+			name="description"
+			placeholder="Écrivez ici le contenu..."
+			aria-label="Contenu du fichier"
+			required
+			></textarea>
+
+			<button type="submit">Créer le fichier</button>
+		</form>
+	</article>
+
+			<article>
+		<header>
+			<h3>Création de fichier</h3>
+		</header>
+
+		<p>Choisissez un fichier à upload :</p>
+
+		<form action="/uploads" method="post" enctype="multipart/form-data">
+			<input type="file" name="file">
+			<button type="submit">Uploader le fichier</button>
+		</form>
+		</article>
+	<a href="/cgi-bin/uploaded_files.py">Listes de tout les fichiers uploads</a>
+
+    </main>
+  </body>
+</html>
