@@ -32,7 +32,7 @@
 
 // python3 /script.py
 
-# define TIMEOUT 10
+# define TIMEOUT 3
 
 class	Cgi
 {

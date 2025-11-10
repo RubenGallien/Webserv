@@ -186,9 +186,8 @@ int validCgiResponse(CgiResponse& response)
 int CgiManager::updateResponse(CgiResponse& response, int fd_cgi)
 {
 	int status;
-	if (!validCgiResponse(response))
+	if (response._status.size() && response._status != "504" && !validCgiResponse(response))
 		response._status = "500";
-	std::cout << "== " << response._status << " ==" << std::endl;
 	if (response._status.size())
 		std::istringstream(response._status) >> status;
 	else
@@ -198,10 +197,13 @@ int CgiManager::updateResponse(CgiResponse& response, int fd_cgi)
 	for (std::map<std::string, std::string>::iterator it = response._general_headers.begin(); it != response._general_headers.end(); it++)
 		resp.setHeaders(it->first, it->second);
 	if (status < 500)
+	{
 		resp.setBody(response._body);
+	}
 	else if (status > 499)
 		resp.setHeaders("Connection", "close");
 	int fd_client = getCgiFdClient(fd_cgi, resp);
+	std::cout << " = = = Client FD : " << fd_client << " = = =" << std::endl;
 	return fd_client;
 }
 
@@ -262,39 +264,27 @@ int CgiManager::receiveData(int fd)
 	ssize_t bytes = read(fd, buffer, sizeof(buffer) - 1);
 	int	it = 1;
 	buffer[bytes] = 0;
-	if (!bytes)
+	if (bytes < 1)
 	{
-		std::cout << " ==== LOOP DANS 1 ====" << std::endl;
 		response._complete = true;
 		it = 0;
 	}
-	response._buffer += buffer;
-	int l = 0;
+	else
+		response._buffer += buffer;
 	while (it)
 	{
-		std::cout << " ==== LOOP DANS 2 ====" << std::endl;
-		std::cout << " ==== BUFFER SIZE = "  << response._buffer.size() << " ==== " << std::endl;
 		if (!response._complete_header)
-		{
-			std::cout << " ==== LOOP DANS 2(A) ===" << std::endl;
 			it = fill_headers(response);
-		}
 
 		if (!response._complete)
-		{
-			std::cout << " ==== LOOP DANS 2(B) ===" << std::endl;
 			it = fill_body(response);
-		}
-		l++;
-		if (l > 4)
-			exit(0);
 	}
-	std::cout << " ==== VA DANS 3 ====" << std::endl;
 	setCgiResponseToCgi(fd, response);
 	if (response._complete)
 	{
-		int ret = updateResponse(response, fd);
-		return (std::cout << " ==== VA DANS 4 pour return " << ret << " ====" << std::endl, ret);
+		std::cout << " = = = FD : " << fd << "      = = =" << std::endl;
+		it = updateResponse(response, fd);
+		return (it);
 	}
 	return (it);
 }

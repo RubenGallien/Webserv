@@ -162,7 +162,6 @@ int Epoll::actions(int nbs)
         }
         else
             this->handleClientEvent(target_fd, this->_events[i].events);
-        std::cout << "==== check_cgi ====" << std::endl;
         _cgiManager.checkCgiToRun(this->_epfd);
     }
     return (1);
